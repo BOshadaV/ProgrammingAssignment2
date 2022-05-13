@@ -2,14 +2,33 @@
 ## functions do
 
 ## Write a short comment describing this function
-
+#Caching inverse of special function
 makeCacheMatrix <- function(x = matrix()) {
-
+        m <- NULL
+        set <- function(y) {
+                x <<- y
+                m <<- NULL
+        }
+        get <- function() x
+        setsolve <- function(solve) m <<- solve
+        getmean <- function() m
+        list(set = set, get = get,
+             setsolve = setsolve,
+             getsolve = getsolve)
 }
 
 
 ## Write a short comment describing this function
-
+#Computing the inverse of the inverse of the special "matrix" returned by makeCacheMatrix
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
+        m <- x$getsolve()
+        if(!is.null(m)) {
+                message("getting inversed matrix")
+                return(m)
+        }
+        data <- x$get()
+        m <- solve(data, ...)
+        x$setmean(m)
+        m
 }
